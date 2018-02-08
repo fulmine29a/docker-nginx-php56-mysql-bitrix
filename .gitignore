@@ -1,0 +1,6 @@
+.idea
+
+/db/dump.sql
+/www/public_html/
+!/www/public_html/docroot.here
+/etc/nginx/default.conf

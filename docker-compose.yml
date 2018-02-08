@@ -1,0 +1,42 @@
+version: "2"
+services:
+  nginx:
+    depends_on:
+      - php-fpm
+    extends:
+      file: ${LIB_PATH}
+      service: nginx-php
+    volumes:
+      - ${BASE_PATH}/etc/nginx:/etc/nginx/sites-enabled
+
+  php-fpm:
+    depends_on:
+      - database
+    extends:
+      file: ${LIB_PATH}
+      service: php-56
+
+  database:
+    extends:
+      file: ${LIB_PATH}
+      service: mysql
+    volumes:
+      - ${BASE_PATH}/db:/dump
+
+networks:
+  dev:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 192.168.10.0/24
+        gateway: 192.168.10.1
+
+volumes:
+  site:
+    driver: "local"
+    driver_opts:
+      type: none
+      device: ${BASE_PATH}/www
+      o: bind
+
